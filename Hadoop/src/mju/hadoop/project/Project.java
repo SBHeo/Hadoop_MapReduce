@@ -45,32 +45,34 @@ public class Project {
 		boolean success = first.waitForCompletion(true);
 		System.out.println(success);
 		
-		String input = args[1] + "/part-r-00000";
-		String output = args[1] + "/Rank";
-		
-		Job second = new Job(conf, "sort");
-		second.setJarByClass(Project.class);
-		
-		second.setMapOutputKeyClass(IntWritable.class);
-		second.setMapOutputValueClass(Text.class);
-		
-		second.setOutputKeyClass(Text.class);
-		second.setOutputValueClass(IntWritable.class);
-		
-		second.setMapperClass(RankMap.class);
-		second.setReducerClass(RankReduce.class);
-		second.setSortComparatorClass(RankCompare.class);
-		
-		second.setInputFormatClass(TextInputFormat.class);
-		second.setOutputFormatClass(TextOutputFormat.class);
-		
-		second.setNumReduceTasks(1);
-		
-		FileInputFormat.setInputPaths(second, new Path(input));
-		FileOutputFormat.setOutputPath(second, new Path(output));
-		
-		success = second.waitForCompletion(true);
-		System.out.println(success);
+		if (args[2].equals("-state") || args[2].equals("-month")) {
+			String input = args[1] + "/part-r-00000";
+			String output = args[1] + "/Rank";
+
+			Job second = new Job(conf, "sort");
+			second.setJarByClass(Project.class);
+
+			second.setMapOutputKeyClass(IntWritable.class);
+			second.setMapOutputValueClass(Text.class);
+
+			second.setOutputKeyClass(Text.class);
+			second.setOutputValueClass(IntWritable.class);
+
+			second.setMapperClass(RankMap.class);
+			second.setReducerClass(RankReduce.class);
+			second.setSortComparatorClass(RankCompare.class);
+
+			second.setInputFormatClass(TextInputFormat.class);
+			second.setOutputFormatClass(TextOutputFormat.class);
+
+			second.setNumReduceTasks(1);
+
+			FileInputFormat.setInputPaths(second, new Path(input));
+			FileOutputFormat.setOutputPath(second, new Path(output));
+
+			success = second.waitForCompletion(true);
+			System.out.println(success);
+		}
 	}
 }
 	
